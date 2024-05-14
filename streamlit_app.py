@@ -1,3 +1,4 @@
+import streamlit as st
 import translators as ts
 import pyttsx3
 import time
