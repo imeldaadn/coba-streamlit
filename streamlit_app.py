@@ -15,11 +15,11 @@ alt.themes.enable("dark")
 
 # Load data
 mydb = mysql.connector.connect(
-    host = "localhost",
-    port = 3306,
-    database = "adventureworks_dw",
-    username = "root",
-    password = "",
+  host="localhost",
+  user="root",
+  password="", 
+  port="3306",
+  database="adventureworks_dw"
 )
 
 # Sidebar
