@@ -8,8 +8,8 @@ import plotly.express as px
 #######################
 # Page configuration
 st.set_page_config(
-    page_title="US Population Dashboard",
-    page_icon="🏂",
+    page_title="Data Visualization Dashboard",
+    page_icon="📌",
     layout="wide",
     initial_sidebar_state="expanded")
 
@@ -32,3 +32,7 @@ with st.sidebar:
 
 
 #######################
+# Data AW
+## Dashboard
+st.header('Hai, This is Dashboard Data Visualization!', divider='rainbow')
+st.header('_I can show your data_ than :blue[cool] :sunglasses:')
