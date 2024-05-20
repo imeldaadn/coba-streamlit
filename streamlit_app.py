@@ -34,5 +34,5 @@ with st.sidebar:
 #######################
 # Data AW
 ## Dashboard
-st.header('Hi, Welcome to the :red[***Data Visualization Dashboard!***]', divider='rainbow')
+st.header('Hi, Welcome to the :rainbow[***Data Visualization Dashboard!***]', divider='rainbow')
 st.subheader('We are here to showcase your data :orange[in] a cool :orange[and] engaging way :sunglasses:')
