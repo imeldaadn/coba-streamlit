@@ -30,7 +30,7 @@ mydb = mysql.connector.connect(
 def main():
 st.sidebar:
     st.title('🏂 Data Visualization Dashboard')
-    st.sidebar.selectbox("Select on Database Option",("Data Warehouse Adventureworks","Web Scrapping"))
+    option = st.sidebar.selectbox("Select a Database Option", ("Data Warehouse Adventureworks", "Web Scrapping"))
     color_theme_list = ['blues', 'cividis', 'greens', 'inferno', 'magma', 'plasma', 'reds', 'rainbow', 'turbo', 'viridis']
     selected_color_theme = st.selectbox('Select a color theme', color_theme_list)
 
