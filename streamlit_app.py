@@ -44,3 +44,6 @@ st.markdown('We are here to showcase your data :orange[in] a cool :orange[and] e
 st.subheader("Data Warehouse Adventureworks")
 
 ## Grafik
+
+if __name__ == "__streamlit_app__":
+    main()
