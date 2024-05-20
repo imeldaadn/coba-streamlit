@@ -1,23 +1,34 @@
+#######################
+# Import libraries
 import streamlit as st
-import translators as ts
-import pyttsx3
-import time
+import pandas as pd
+import altair as alt
+import plotly.express as px
 
-engine = pyttsx3.init()
+#######################
+# Page configuration
+st.set_page_config(
+    page_title="US Population Dashboard",
+    page_icon="🏂",
+    layout="wide",
+    initial_sidebar_state="expanded")
 
-text = "This company was founded in 2010 by the infamous movie star, \
-          Graeme Alexander. Currently, the company worths USD 1 billion \
-          according to Forbes report in 2023. What an achievement in just \
-          13 years."
-engine.say(text)
-engine.runAndWait()
-time.sleep(2)
-engine.say("terjemahannya dalam bahasa Indonesia sebagai berikut")
-engine.runAndWait()
-time.sleep(2)
-hasil = ts.translate_text(text, to_language="id", translator='google')
-print(hasil)
-time.sleep(1)
-engine.say(hasil)
-engine.runAndWait()
-engine.stop()
+alt.themes.enable("dark")
+
+
+#######################
+# Load data
+
+
+
+#######################
+# Sidebar
+with st.sidebar:
+    st.title('🏂 Data Visualization Dashboard')
+    
+
+    color_theme_list = ['blues', 'cividis', 'greens', 'inferno', 'magma', 'plasma', 'reds', 'rainbow', 'turbo', 'viridis']
+    selected_color_theme = st.selectbox('Select a color theme', color_theme_list)
+
+
+#######################
