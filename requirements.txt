@@ -3,3 +3,4 @@ pandas
 altair
 plotly
 sqlalchemy==1.4.39
+mysqlclient==2.2.4
