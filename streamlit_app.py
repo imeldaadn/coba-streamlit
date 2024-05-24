@@ -1,26 +1,24 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import os
 from sqlalchemy import create_engine
 
-# Page configuration
+# Konfigurasi halaman
 st.set_page_config(
     page_title="Data Visualization Dashboard",
     page_icon="🎢",
     layout="wide",
-    initial_sidebar_state="expanded")
+    initial_sidebar_state="expanded"
+)
 
-alt.themes.enable("dark")
-
-# Load database configuration from secrets.toml
+# Memuat konfigurasi database dari secrets.toml
 db_config = st.secrets["database"]
 
-# Create the connection string
-db_connection_str = f'mysql+mysqlconnector://{db_config["host"]}:{db_config["port"]}@{db_config["name"]}:{db_config["username"]}/{db_config["password"]}'
+# Membuat string koneksi
+db_connection_str = f'mysql+mysqlconnector://{db_config["root"]}:{db_config["password"]}@{db_config["localhost"]}:{db_config["3306"]}/{db_config["database_name"]}'
 db_connection = create_engine(db_connection_str)
 
-# query to fetch data
+# Query untuk mengambil data
 def load_data():
     query = """
     SELECT p.name AS product_name, SUM(s.LineTotal) AS total_sales 
@@ -31,23 +29,24 @@ def load_data():
     """
     return pd.read_sql(query, db_connection)
 
-# Sidebar
+# Fungsi utama untuk menampilkan aplikasi
 def main():
     st.sidebar.title('🏂 Data Visualization Dashboard')
-    option = st.sidebar.selectbox("Select Page", ("Data Warehouse Adventureworks", "Web Scrapping"))
+    option = st.sidebar.selectbox("Select Page", ("Data Warehouse Adventureworks", "Web Scraping"))
     color_theme_list = ['blues', 'cividis', 'greens', 'inferno', 'magma', 'plasma', 'reds', 'rainbow', 'turbo', 'viridis']
-    selected_color_theme = st.selectbox('Select a color theme', color_theme_list)
+    selected_color_theme = st.sidebar.selectbox('Select a color theme', color_theme_list)
 
-# Data AW
-## Dashboard
-st.header('Hi, Welcome to the :rainbow[***Data Visualization Dashboard!***]', divider='rainbow')
-st.markdown('We are here to showcase your data :orange[in] a cool :orange[and] engaging way :sunglasses:')
-st.subheader("Data Warehouse Adventureworks")
+    # Data AW
+    ## Dashboard
+    st.header('Hi, Welcome to the :rainbow[***Data Visualization Dashboard!***]')
+    st.markdown('We are here to showcase your data :orange[in] a cool :orange[and] engaging way :sunglasses:')
+    st.subheader("Data Warehouse Adventureworks")
 
-## Grafik
-data = load_data()
-st.write(data)
-# Create the bar chart with Plotly
+    ## Grafik
+    data = load_data()
+    st.write(data)
+
+    # Membuat chart bar dengan Plotly
     fig = px.bar(
         data, 
         x='product_name', 
