@@ -17,7 +17,7 @@ alt.themes.enable("dark")
 db_config = st.secrets["database"]
 
 # Create the connection string
-db_connection_str = f'mysql+mysqlconnector://{db_config["username"]}:{db_config["password"]}@{db_config["host"]}:{db_config["port"]}/{db_config["name"]}'
+db_connection_str = f'mysql+mysqlconnector://{db_config["host"]}:{db_config["port"]}@{db_config["name"]}:{db_config["username"]}/{db_config["password"]}'
 db_connection = create_engine(db_connection_str)
 
 # query to fetch data
