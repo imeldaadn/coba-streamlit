@@ -4,3 +4,4 @@ altair
 plotly
 sqlalchemy==1.4.39
 mysqlclient==2.2.4
+mysql-connector-python==8.3.0
