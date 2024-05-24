@@ -18,6 +18,13 @@ db_config = st.secrets["database"]
 db_connection_str = f'mysql+mysqlconnector://{db_config["username"]}:{db_config["password"]}@{db_config["host"]}:{db_config["port"]}/{db_config["name"]}'
 db_connection = create_engine(db_connection_str)
 
+# Debugging: coba koneksi terlebih dahulu
+try:
+    conn = db_connection.connect()
+    st.write("Connection successful")
+except Exception as e:
+    st.write(f"Connection failed: {e}")
+
 # Query untuk mengambil data
 def load_data():
     query = """
@@ -27,7 +34,7 @@ def load_data():
     GROUP BY p.name 
     ORDER BY total_sales DESC;
     """
-    return pd.read_sql(query, db_connection.connect())
+    return pd.read_sql(query, conn)
 
 # Fungsi utama untuk menampilkan aplikasi
 def main():
