@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-import altair as alt
 import plotly.express as px
 import os
+from sqlalchemy import create_engine
 
 # Page configuration
 st.set_page_config(
@@ -13,8 +13,23 @@ st.set_page_config(
 
 alt.themes.enable("dark")
 
-# Initialize connection.
-conn = st.connection('mysql', type='sql')
+# Load database configuration from secrets.toml
+db_config = st.secrets["database"]
+
+# Create the connection string
+db_connection_str = f'mysql+mysqlconnector://{db_config["root"]}:{db_config[""]}@{db_config["localhost"]}:{db_config["3306"]}/{db_config["dump-dw_aw-202403050806"]}'
+db_connection = create_engine(db_connection_str)
+
+# query to fetch data
+def load_data():
+    query = """
+    SELECT p.name AS product_name, SUM(s.LineTotal) AS total_sales 
+    FROM sales_fact s 
+    JOIN product p ON s.product_key = p.id
+    GROUP BY p.name 
+    ORDER BY total_sales DESC;
+    """
+    return pd.read_sql(query, db_connection)
 
 # Sidebar
 def main():
@@ -30,6 +45,20 @@ st.markdown('We are here to showcase your data :orange[in] a cool :orange[and] e
 st.subheader("Data Warehouse Adventureworks")
 
 ## Grafik
+data = load_data()
+st.write(data)
+# Create the bar chart with Plotly
+    fig = px.bar(
+        data, 
+        x='product_name', 
+        y='total_sales', 
+        title='Total Sales by Product',
+        labels={'product_name': 'Product', 'total_sales': 'Total Sales'},
+        color='total_sales',
+        color_continuous_scale=selected_color_theme
+    )
+
+    st.plotly_chart(fig)
 
 if __name__ == "__main__":
     main()
