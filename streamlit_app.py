@@ -15,7 +15,7 @@ st.set_page_config(
 db_config = st.secrets["database"]
 
 # Membuat string koneksi
-db_connection_str = f'mysql+mysqlconnector://{db_config["root"]}:{db_config["password"]}@{db_config["localhost"]}:{db_config["3306"]}/{db_config["database_name"]}'
+db_connection_str = f'mysql+mysqlconnector://{db_config["host"]}:{db_config["port"]}@{db_config["name"]}:{db_config["username"]}/{db_config["password"]}'
 db_connection = create_engine(db_connection_str)
 
 # Query untuk mengambil data
