@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import plotly.express as px
+import os
 
 # Page configuration
 st.set_page_config(
@@ -14,7 +15,6 @@ alt.themes.enable("dark")
 
 # Initialize connection.
 conn = st.connection('mysql', type='sql')
-
 
 # Sidebar
 def main():
