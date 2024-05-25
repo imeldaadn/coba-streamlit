@@ -27,8 +27,7 @@ def load_data():
     GROUP BY p.name 
     ORDER BY total_sales DESC;
     """
-    with db_connection.connect() as conn:
-        return pd.read_sql(query, conn)
+    return pd.read_sql(query, db_connection)
 
 # Fungsi utama untuk menampilkan aplikasi
 def main():
@@ -44,24 +43,21 @@ def main():
     st.subheader("Data Warehouse Adventureworks")
 
     ## Grafik
-    try:
-        data = load_data()
-        st.write(data)
+    data = load_data()
+    st.write(data)
 
-        # Membuat chart bar dengan Plotly
-        fig = px.bar(
-            data, 
-            x='product_name', 
-            y='total_sales', 
-            title='Total Sales by Product',
-            labels={'product_name': 'Product', 'total_sales': 'Total Sales'},
-            color='total_sales',
-            color_continuous_scale=selected_color_theme
-        )
+    # Membuat chart bar dengan Plotly
+    fig = px.bar(
+        data, 
+        x='product_name', 
+        y='total_sales', 
+        title='Total Sales by Product',
+        labels={'product_name': 'Product', 'total_sales': 'Total Sales'},
+        color='total_sales',
+        color_continuous_scale=selected_color_theme
+    )
 
-        st.plotly_chart(fig)
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
+    st.plotly_chart(fig)
 
 if __name__ == "__main__":
     main()
