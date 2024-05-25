@@ -27,7 +27,7 @@ def load_data():
     GROUP BY p.name 
     ORDER BY total_sales DESC;
     """
-    return pd.read_sql(query, db_connection)
+    return pd.read_sql(query, db_connection.connect())
 
 # Fungsi utama untuk menampilkan aplikasi
 def main():
