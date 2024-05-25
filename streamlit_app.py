@@ -18,13 +18,6 @@ db_config = st.secrets["database"]
 db_connection_str = f'mysql+mysqlconnector://{db_config["username"]}:{db_config["password"]}@{db_config["host"]}:{db_config["port"]}/{db_config["name"]}'
 db_connection = create_engine(db_connection_str)
 
-# Debugging: coba koneksi terlebih dahulu
-try:
-    conn = db_connection.connect()
-    st.write("Connection successful")
-except Exception as e:
-    st.write(f"Connection failed: {e}")
-
 # Query untuk mengambil data
 def load_data():
     query = """
@@ -34,7 +27,8 @@ def load_data():
     GROUP BY p.name 
     ORDER BY total_sales DESC;
     """
-    return pd.read_sql(query, conn)
+    with db_connection.connect() as conn:
+        return pd.read_sql(query, conn)
 
 # Fungsi utama untuk menampilkan aplikasi
 def main():
@@ -50,21 +44,24 @@ def main():
     st.subheader("Data Warehouse Adventureworks")
 
     ## Grafik
-    data = load_data()
-    st.write(data)
+    try:
+        data = load_data()
+        st.write(data)
 
-    # Membuat chart bar dengan Plotly
-    fig = px.bar(
-        data, 
-        x='product_name', 
-        y='total_sales', 
-        title='Total Sales by Product',
-        labels={'product_name': 'Product', 'total_sales': 'Total Sales'},
-        color='total_sales',
-        color_continuous_scale=selected_color_theme
-    )
+        # Membuat chart bar dengan Plotly
+        fig = px.bar(
+            data, 
+            x='product_name', 
+            y='total_sales', 
+            title='Total Sales by Product',
+            labels={'product_name': 'Product', 'total_sales': 'Total Sales'},
+            color='total_sales',
+            color_continuous_scale=selected_color_theme
+        )
 
-    st.plotly_chart(fig)
+        st.plotly_chart(fig)
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
 
 if __name__ == "__main__":
     main()
